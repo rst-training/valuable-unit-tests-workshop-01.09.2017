@@ -1,4 +1,4 @@
-Conference can cancel reservation when called.
+Conference can cancel reservation when called. OK
 Conference can cancel reservation on non existing order.
 Conference cancel non existing reservations.
 Conference tries to cancel with wrong id.

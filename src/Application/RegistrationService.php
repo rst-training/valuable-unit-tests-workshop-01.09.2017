@@ -15,6 +15,19 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 
 class RegistrationService
 {
+    protected $dao;
+    protected $conference;
+    protected $paypal;
+    protected $discount;
+
+    public function __construct(ConferenceMemoryRepository $conference, ConferenceSeatsDao $dao, DiscountService $discount, PaypalPayments $payments)
+    {
+        $this->conference = $conference;
+        $this->dao = $dao;
+        $this->discount = $discount;
+        $this->paypal = $payments;
+    }
+
     public function reserveSeats(int $orderId, int $conferenceId, array $seats)
     {
         $conference = $this->getConferenceRepository()->get(new ConferenceId($conferenceId));
@@ -55,6 +68,7 @@ class RegistrationService
 
         $response = new RedirectResponse($approvalLink);
         $response->send();
+        return $totalCost;
     }
 
     protected function fromArray(array $seats): SeatsCollection
@@ -70,21 +84,21 @@ class RegistrationService
 
     protected function getConferenceRepository(): ConferenceMemoryRepository
     {
-        return new ConferenceMemoryRepository();
+        return $this->conference;
     }
 
     protected function getConferenceDao(): ConferenceSeatsDao
     {
-        return new ConferenceSeatsDao(['dns' => 'mysql:host=localhost;dbname=test', 'username' => 'admin', 'password' => 'test', 'options' => []]);
+        return $this->dao;
     }
 
     protected function getDiscountService(): DiscountService
     {
-        return new DiscountService(new SeatsStrategyConfiguration());
+        return $this->discount;
     }
 
     protected function getPaypalPayments(): PaypalPayments
     {
-        return new PaypalPayments();
+        return $this->paypal;
     }
 }
