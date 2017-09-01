@@ -6,32 +6,21 @@ use RstGroup\ConferenceSystem\Domain\Reservation\Seat;
 
 class DiscountService
 {
-    /**
-     * @var SeatsStrategyConfiguration
-     */
-    private $configuration;
+    protected $discountStrategies = [];
 
-    public function __construct(SeatsStrategyConfiguration $configuration)
-    {
-        $this->configuration = $configuration;
-    }
-
-    public function calculateForSeat(Seat $seat): float
+    public function calculateForSeat(Seat $seat, int $price): float
     {
         $discountedPrice = null;
 
-        foreach ($this->seatDiscountStrategies() as $strategy) {
-            $discountedPrice = $strategy->calculate($seat, $seat->getPricePerSeat(), $discountedPrice);
+        foreach ($this->discountStrategies as $strategy) {
+            $discountedPrice = $strategy->calculate($seat, $price, $discountedPrice);
         }
 
         return $discountedPrice;
     }
 
-    protected function seatDiscountStrategies(): array
+    public function addDiscountStrategy(SeatDiscountStrategyInterface $strategy): void
     {
-       return [
-           new AtLeastTenEarlyBirdSeatsDiscountStrategy($this->configuration),
-           new FreeSeatDiscountStrategy($this->configuration),
-       ];
+        $this->discountStrategies[] = $strategy;
     }
 }

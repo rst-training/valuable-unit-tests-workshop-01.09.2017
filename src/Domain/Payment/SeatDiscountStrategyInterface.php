@@ -4,7 +4,7 @@ namespace RstGroup\ConferenceSystem\Domain\Payment;
 
 use RstGroup\ConferenceSystem\Domain\Reservation\Seat;
 
-interface SeatDiscountStrategy
+interface SeatDiscountStrategyInterface
 {
     /**
      * @param $seat

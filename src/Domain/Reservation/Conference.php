@@ -16,12 +16,8 @@ class Conference
     /**
      * @param Seat[] $seats
      */
-    public function __construct(
-        ConferenceId $id,
-        SeatsAvailabilityCollection $seatsAvailability,
-        ReservationsCollection $reservations,
-        ReservationsCollection $waitList
-    ) {
+    public function __construct(ConferenceId $id, SeatsAvailabilityCollection $seatsAvailability, ReservationsCollection $reservations, ReservationsCollection $waitList)
+    {
         $this->id = $id;
 
         $this->seatsAvailability = $seatsAvailability;
