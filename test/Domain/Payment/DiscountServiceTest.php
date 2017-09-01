@@ -26,4 +26,19 @@ class DiscountServiceTest extends TestCase
 
         $this->assertEquals(59.5, $discountService->calculateForSeat($seat, 7), 0.01);
     }
+
+    /**
+     * @test
+     */
+    public function discountBy15PercentOn10EarlyBirdSeatsBought()
+    {
+        $configuration = $this->getMockBuilder(SeatsStrategyConfiguration::class)->getMock();
+        $configuration->method('isEnabledForSeat')->willReturn(true);
+        $discount = new DiscountService($configuration);
+
+        $discount->enableStrategy(AtLeastTenEarlyBirdSeatsDiscountStrategy::class);
+
+        $seat = new Seat('early', 10);
+        $this->assertEquals(59.5, $discount->calculateForSeat($seat, 7));
+    }
 }

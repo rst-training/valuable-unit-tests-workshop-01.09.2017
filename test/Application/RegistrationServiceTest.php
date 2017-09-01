@@ -16,7 +16,10 @@ use RstGroup\ConferenceSystem\Infrastructure\Reservation\ConferenceSeatsDao;
 
 class RegistrationServiceTest extends TestCase
 {
-    public function testGetTotalCostWithDiscountAfterConfirmation() {
+    /**
+     * @test
+     */
+    public function GetTotalCostWithDiscountAfterConfirmation() {
 
         $seats = $this->createMock(ReservationsCollection::class);
         $seats->method('getAll')->willReturn([new Seat('disc', 5)]);
