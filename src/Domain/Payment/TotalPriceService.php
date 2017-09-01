@@ -7,7 +7,6 @@ use RstGroup\ConferenceSystem\Infrastructure\Reservation\ConferenceSeatsDao;
 
 class TotalPriceService
 {
-
     /**
      * @var DiscountService
      */
@@ -48,5 +47,4 @@ class TotalPriceService
         return $totalCost;
 
     }
-
 }
