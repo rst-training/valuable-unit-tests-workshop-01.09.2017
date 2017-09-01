@@ -56,6 +56,6 @@ class RegistrationServiceTest extends TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        
+
     }
 }
