@@ -1,0 +1,8 @@
+- Conference is verifying if reservation already exists when adding new reservation - `testReservationAlreadyExists`
+- Conference is verifying if all seats are iterable when adding new reservation - `testGetAllSeatsIsIterable`
+- Conference is checking if number of seats is numeric variable when adding new reservation - `testSeatGetQuantityReturnsNumeric`
+- Conference is checking if waiting list exception is thrown when trying to add invalid reservation - `testAddWaitingListExceptionForInvalidReservation`
+- Conference is checking if there is no items added to wait list when valid reservation added - `testAddWaitingListVoidForSuccess`
+- Conference is checking if there is enough seats available when adding reservation - `testNotEnoughSeatsAvailable`
+- Conference is checking if there is valid seat quantity provided when adding reservation - `testInvalidSeatQuantityProvided`
+- Conference is checking if reservation has been added - `testMakeReservationSuccessFlow`
