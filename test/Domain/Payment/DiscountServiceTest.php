@@ -29,8 +29,6 @@ class DiscountServiceTest extends TestCase
      */
     public function returns_price_discounted_by_15_percent_if_at_least_10_early_bird_seats_are_bought_new_version()
     {
-        $discountService = new DiscountService();
-        $discountService->addDiscountStrategy(new AtLeastTenEarlyBirdSeatsDiscountStrategyInterface());
-        $this->assertEquals(59.5, $discountService->calculateForSeat(new Seat('xyz', 10), 7), 0.01);
+        $this->assertEquals(59.5, (new AtLeastTenEarlyBirdSeatsDiscountStrategyInterface())->calculate(new Seat('xyz', 10), 7, null));
     }
 }
