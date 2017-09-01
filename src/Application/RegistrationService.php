@@ -36,9 +36,22 @@ class RegistrationService
         $conference = $this->getConferenceRepository()->get(new ConferenceId($conferenceId));
         $reservation = $conference->getReservations()->get(new ReservationId(new ConferenceId($conferenceId), new OrderId($orderId)));
 
-        $totalCost = 0;
         $seats = $reservation->getSeats();
         $seatsPrices = $this->getConferenceDao()->getSeatsPrices($conferenceId);
+
+
+        $conference->closeReservationForOrder(new OrderId($orderId));
+        $totalCost = $this->countTotalCost($seats, $seatsPrices);
+        $approvalLink = $this->getPaypalPayments()->getApprovalLink($conference, $totalCost);
+
+        $response = new RedirectResponse($approvalLink);
+        $response->send();
+        
+    }
+    
+    protected function countTotalCost($seats, $seatsPrices)
+    {
+        $totalCost = 0;
 
         foreach ($seats->getAll() as $seat) {
             $priceForSeat = $seatsPrices[$seat->getType()][0];
@@ -48,13 +61,7 @@ class RegistrationService
 
             $totalCost += min($dicountedPrice, $regularPrice);
         }
-
-        $conference->closeReservationForOrder(new OrderId($orderId));
-
-        $approvalLink = $this->getPaypalPayments()->getApprovalLink($conference, $totalCost);
-
-        $response = new RedirectResponse($approvalLink);
-        $response->send();
+        return $totalCost;
     }
 
     protected function fromArray(array $seats): SeatsCollection

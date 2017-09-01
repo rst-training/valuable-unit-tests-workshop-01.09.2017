@@ -18,5 +18,4 @@ class ConferenceTest extends TestCase
     {
         $this->markTestSkipped();
     }
-    
  }
