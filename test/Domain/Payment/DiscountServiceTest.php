@@ -6,6 +6,7 @@ use PHPUnit\Framework\TestCase;
 use RstGroup\ConferenceSystem\Domain\Payment\AtLeastTenEarlyBirdSeatsDiscountStrategy;
 use RstGroup\ConferenceSystem\Domain\Payment\DiscountService;
 use RstGroup\ConferenceSystem\Domain\Payment\FreeSeatDiscountStrategy;
+use RstGroup\ConferenceSystem\Domain\Payment\SeatDiscountStrategy;
 use RstGroup\ConferenceSystem\Domain\Payment\SeatsStrategyConfiguration;
 use RstGroup\ConferenceSystem\Domain\Reservation\Seat;
 
@@ -25,5 +26,22 @@ class DiscountServiceTest extends TestCase
         $seat->expects($this->exactly(2))->method('getQuantity')->willReturn(10);
 
         $this->assertEquals(59.5, $discountService->calculateForSeat($seat, 7), 0.01);
+    }
+
+    /**
+     * @test
+     */
+    public function check_15_percent_discount_if_at_least_10_seats(){
+        $configuration = $this->getMockBuilder(SeatsStrategyConfiguration::class)->getMock();
+        $configuration->method("isEnabledForSeat")->willReturn(true);
+
+        $strategy = new AtLeastTenEarlyBirdSeatsDiscountStrategy($configuration);
+
+        $seat = $this->getMockBuilder(Seat::class)->disableOriginalConstructor()->getMock();
+        $seat->method("getQuantity")->willReturn(10);
+
+        $returned = $strategy->calculate($seat, 10, null);
+
+        self::assertEquals(85, $returned);
     }
 }
