@@ -51,7 +51,14 @@ class SeatPoolStrategy{
 
 
     public function calculate(Seat $seat){
-        return $seat->getCostPerSeat() - $this->getValue();
+        if($this->getPool() >= $seat->getQuantity()){
+            $this->pool -= $seat->getQuantity();
+            return $seat->getCostPerSeat() - $this->getValue();
+        }else if($this->getPool() < $seat->getQuantity()){
+
+            // edit
+            return ($seat->getQuantity() - $this->pool) * ($seat->getCostPerSeat() - $this->getValue()) + $this->getValue() * $this->getPool();
+        }
     }
 
 }

@@ -55,4 +55,18 @@ class DiscountServiceTest extends TestCase
 
         self::assertEquals(10, $result);
     }
+
+    /**
+     * @test
+     */
+    public function returns_number_of_discounts_available_after_decrease(){
+        $strategy = new SeatPoolStrategy(100, 50);
+        $strategy->calculate(new Seat("test", 50, 60));
+
+        self::assertEquals(50, $strategy->getPool());
+
+        $return = $strategy->calculate(new Seat("test", 51, 60));
+
+        self::assertEquals(560, $return);
+    }
 }
