@@ -6,19 +6,11 @@ use RstGroup\ConferenceSystem\Domain\Reservation\Seat;
 
 class AtLeastTenEarlyBirdSeatsDiscountStrategy implements SeatDiscountStrategy
 {
-    /**
-     * @var SeatsStrategyConfiguration
-     */
-    private $configuration;
 
-    public function __construct(SeatsStrategyConfiguration $configuration)
+    public function calculate(Seat $seat, int $price): float
     {
-        $this->configuration = $configuration;
-    }
-
-    public function calculate(Seat $seat, int $price, ?float $discountedPrice): float
-    {
-        if ($seat->getQuantity() >= 10 && $this->configuration->isEnabledForSeat(__CLASS__, $seat) && $discountedPrice === null) {
+        $discountedPrice = 0.0;
+        if ($seat->getQuantity() >= 10) {
             return $price * $seat->getQuantity() * 0.85;
         }
 

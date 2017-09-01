@@ -16,9 +16,10 @@ class FreeSeatDiscountStrategy implements SeatDiscountStrategy
         $this->configuration = $configuration;
     }
 
-    public function calculate(Seat $seat, int $price, float $discountedPrice): float
+    public function calculate(Seat $seat, int $price): float
     {
-        if ($this->configuration->isEnabledForSeat(__CLASS__, $seat) && $discountedPrice === null) {
+        $discountedPrice = null;
+        if ($this->configuration->isEnabledForSeat(__CLASS__, $seat)) {
             return 0;
         }
 
