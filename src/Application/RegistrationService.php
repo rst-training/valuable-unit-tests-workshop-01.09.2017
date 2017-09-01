@@ -38,7 +38,8 @@ class RegistrationService
 
         $totalCost = 0;
         $seats = $reservation->getSeats();
-        $seatsPrices = $this->getConferenceDao()->getSeatsPrices($conferenceId);
+        //$seatsPrices = $this->getConferenceDao()->getSeatsPrices($conferenceId);
+        $seatsPrices = $this->getSeatPrices($conferenceId);
 
         foreach ($seats->getAll() as $seat) {
             $priceForSeat = $seatsPrices[$seat->getType()][0];
@@ -55,6 +56,21 @@ class RegistrationService
 
         $response = new RedirectResponse($approvalLink);
         $response->send();
+    }
+
+    public function calculate($seats, $priceForSeat){
+        $totalCost = 0;
+
+        foreach($seats->getAll() as $seat){
+            $regularPrice = $priceForSeat * $seat->getQuanity();
+            $totalCost = min($regularPrice);
+        }
+
+        return $totalCost;
+    }
+
+    protected function getSeatPrices($conferenceId){
+        return $seatsPrices = $this->getConferenceDao()->getSeatsPrices($conferenceId);
     }
 
     protected function fromArray(array $seats): SeatsCollection
