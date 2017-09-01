@@ -38,8 +38,8 @@ class DiscountService
         ];
     }
 
-    public function enableStrategy(string $strategy)
+    public function enableStrategy(string $strategy, $pool = null)
     {
-        $this->strategy[] = new $strategy($this->configuration);
+        $this->strategy[] = new $strategy($this->configuration, $pool);
     }
 }

@@ -4,6 +4,8 @@ namespace RstGroup\ConferenceSystem\Domain\Payment\Test;
 
 use PHPUnit\Framework\TestCase;
 use RstGroup\ConferenceSystem\Domain\Payment\AtLeastTenEarlyBirdSeatsDiscountStrategy;
+use RstGroup\ConferenceSystem\Domain\Payment\DiscountPool;
+use RstGroup\ConferenceSystem\Domain\Payment\DiscountPoolStrategy;
 use RstGroup\ConferenceSystem\Domain\Payment\DiscountService;
 use RstGroup\ConferenceSystem\Domain\Payment\FreeSeatDiscountStrategy;
 use RstGroup\ConferenceSystem\Domain\Payment\SeatsStrategyConfiguration;
@@ -40,5 +42,29 @@ class DiscountServiceTest extends TestCase
 
         $seat = new Seat('early', 10);
         $this->assertEquals(59.5, $discount->calculateForSeat($seat, 7));
+    }
+    /**
+     * @test
+     */
+    public function isDiscountPoolDecrementItself()
+    {
+        $configuration = $this->getMockBuilder(SeatsStrategyConfiguration::class)->getMock();
+        $configuration->method('isEnabledForSeat')->willReturn(true);
+        $discount = new DiscountService($configuration);
+
+        $pool = new DiscountPool(100);
+        $discount->enableStrategy(DiscountPoolStrategy::class, $pool);
+
+        $seat = new Seat('early', 10);
+        $discount->calculateForSeat($seat, 7);
+        $this->assertEquals(90, $pool->getLeftSeats());
+    }
+    /**
+     * @test
+     */
+    public function discountPoolDecrementation() {
+        $pool = new DiscountPool(100);
+        $this->assertEquals(100, $pool->decrement(110));
+        $this->assertEquals(0, $pool->getLeftSeats());
     }
 }
