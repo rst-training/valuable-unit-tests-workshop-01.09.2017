@@ -16,12 +16,12 @@ class DiscountService
         $this->configuration = $configuration;
     }
 
-    public function calculateForSeat(Seat $seat, int $price): float
+    public function calculateForSeat(Seat $seat): float
     {
         $discountedPrice = null;
 
         foreach ($this->seatDiscountStrategies() as $strategy) {
-            $discountedPrice = $strategy->calculate($seat, $price, $discountedPrice);
+            $discountedPrice = $strategy->calculate($seat, $seat->getPricePerSeat(), $discountedPrice);
         }
 
         return $discountedPrice;

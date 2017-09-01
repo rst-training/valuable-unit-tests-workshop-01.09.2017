@@ -87,4 +87,17 @@ class RegistrationService
     {
         return new PaypalPayments();
     }
+
+    public function calculateTotalCost(SeatsCollection $seats): float
+    {
+        $totalCost = 0;
+        foreach ($seats->getAll() as $seat) {
+            $price = $this->getDiscountService()->calculateForSeat($seat);
+            if ($price === null) {
+                $price = $seat->getPricePerSeat() * $seat->getQuantity();
+            }
+            $totalCost += $price;
+        }
+        return $totalCost;
+    }
 }

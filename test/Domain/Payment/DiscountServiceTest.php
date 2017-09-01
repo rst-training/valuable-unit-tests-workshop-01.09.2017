@@ -24,6 +24,6 @@ class DiscountServiceTest extends TestCase
         $configuration->expects($this->at(1))->method('isEnabledForSeat')->with(FreeSeatDiscountStrategy::class)->willReturn(false);
         $seat->expects($this->exactly(2))->method('getQuantity')->willReturn(10);
 
-        $this->assertEquals(59.5, $discountService->calculateForSeat($seat, 7), 0.01);
+        $this->assertEquals(59.5, $discountService->calculateForSeat($seat), 0.01);
     }
 }

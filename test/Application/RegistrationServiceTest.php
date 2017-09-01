@@ -2,6 +2,7 @@
 namespace RstGroup\ConferenceSystem\Test\Application;
 use RstGroup\ConferenceSystem\Application\RegistrationService;
 use PHPUnit\Framework\TestCase;
+use RstGroup\ConferenceSystem\Domain\Payment\DiscountService;
 use RstGroup\ConferenceSystem\Domain\Reservation\Conference;
 use RstGroup\ConferenceSystem\Domain\Reservation\ConferenceId;
 use RstGroup\ConferenceSystem\Domain\Reservation\OrderId;
@@ -15,7 +16,10 @@ use RstGroup\ConferenceSystem\Infrastructure\Reservation\ConferenceSeatsDao;
 
 class RegistrationServiceTest extends TestCase
 {
-    public function test_calculate_total_cost_with_discount_when_confirming_order()
+    /**
+     * @deprecated
+     */
+    public function calculate_total_cost_with_discount_when_confirming_order()
     {
         $orderId = 1;
         $conferenceId = 1;
@@ -33,5 +37,35 @@ class RegistrationServiceTest extends TestCase
         $conferenceMemoryRepository->method('get')->willReturn($conference);
 
         // TODO:
+    }
+
+    public function test_calculate_total_cost_without_discount()
+    {
+        $discount = $this->createMock(DiscountService::class);
+        $discount->method('calculateForSeat')->willReturn(null);
+
+        $seats = new SeatsCollection();
+        $seats->add(new Seat('xyz', 10, 49.90));
+
+        $registrationService = new RegistrationService();
+        $totalCost = $registrationService->calculateTotalCost($seats);
+
+        $this->assertEquals(499, $totalCost);
+        $this->assertInternalType('float', $totalCost);
+    }
+
+    public function test_calculate_total_cost_with_discount()
+    {
+        $discount = $this->createMock(DiscountService::class);
+        $discount->method('calculateForSeat')->willReturn(499.00);
+
+        $seats = new SeatsCollection();
+        $seats->add(new Seat('xyz', 10, 49.90));
+
+        $registrationService = new RegistrationService();
+        $totalCost = $registrationService->calculateTotalCost($seats);
+
+        $this->assertEquals(449.10, $totalCost);
+        $this->assertInternalType('float', $totalCost);
     }
 }
