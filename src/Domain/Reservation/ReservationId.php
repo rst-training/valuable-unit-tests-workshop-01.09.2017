@@ -15,6 +15,14 @@ class ReservationId
         $this->conferenceId = $conferenceId;
     }
 
+    /**
+     * @return OrderId
+     */
+    public function getOrderId(): OrderId
+    {
+        return $this->orderId;
+    }
+
     public function getHashKey(): string
     {
         return "{$this->conferenceId->getId()}-{$this->orderId->getId()}";

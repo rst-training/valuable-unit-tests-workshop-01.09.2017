@@ -24,4 +24,18 @@ class Reservation
     {
         return $this->seats;
     }
+
+    public function calculate(): float{
+        $totalCost = 0;
+        foreach ($this->seats->getAll() as $seat) {
+            $priceForSeat = $seat->getCostPerSeat();
+
+            $regularPrice = $priceForSeat * $seat->getQuantity();
+            $dicountedPrice = $this->getReservationId()->getOrderId()->getDiscountPriceFor($seat->getType());
+
+            $totalCost += $regularPrice - $dicountedPrice;
+        }
+
+        return $totalCost;
+    }
 }

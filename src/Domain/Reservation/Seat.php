@@ -6,8 +6,9 @@ class Seat
 {
     private $type;
     private $quantity;
+    private $costPerSeat;
 
-    public function __construct(string $type, int $quantity)
+    public function __construct(string $type, int $quantity, float $costPer)
     {
         $this->type = $type;
 
@@ -16,6 +17,7 @@ class Seat
         }
 
         $this->quantity = $quantity;
+        $this->costPerSeat = $costPer;
     }
 
     public function getType(): string
@@ -26,5 +28,13 @@ class Seat
     public function getQuantity(): int
     {
         return $this->quantity;
+    }
+
+    /**
+     * @return float
+     */
+    public function getCostPerSeat(): float
+    {
+        return $this->costPerSeat;
     }
 }

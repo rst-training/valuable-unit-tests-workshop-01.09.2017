@@ -17,4 +17,12 @@ class OrderId
     {
         return $this->id;
     }
+
+    public function getDiscountPriceFor(string $type){
+        if($type == "first"){
+            return 10;
+        }else{
+            return 0;
+        }
+    }
 }
