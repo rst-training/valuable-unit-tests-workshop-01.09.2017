@@ -13,4 +13,27 @@ class ConferenceTest extends TestCase
     {
         $this->markTestSkipped();
     }
+
+    public function doesReservationExists() {
+
+    }
+
+    public function overbookSeatType() {
+
+    }
+
+    public function reserveWholeConference() {
+
+    }
+
+    public function reserveZeroSeats() {
+
+    }
+
+    public function reserveLessThanZeroSeats() {
+
+    }
+
+
+
 }
