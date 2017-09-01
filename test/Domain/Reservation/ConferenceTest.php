@@ -6,11 +6,19 @@ use PHPUnit\Framework\TestCase;
 
 class ConferenceTest extends TestCase
 {
-    /**
-     * @todo: remove it
-     */
-    public function test_example_name()
+    public function is_reservation_already_exists()
     {
-        $this->markTestSkipped();
+    }
+
+    public function is_added_to_wait_list()
+    {
+    }
+
+    public function seats_availability_is_not_decrementen_when_seats_added_to_wait_list()
+    {
+    }
+
+    public function is_seats_availability_decremented()
+    {
     }
 }
