@@ -21,7 +21,9 @@ class DiscountService
         $discountedPrice = null;
 
         foreach ($this->seatDiscountStrategies() as $strategy) {
-            $discountedPrice = $strategy->calculate($seat, $price, $discountedPrice);
+            if ($this->configuration->isEnabledForSeat(get_class($strategy), $seat) && $discountedPrice === null) {
+                $discountedPrice = $strategy->calculate($seat, $price);
+            }
         }
 
         return $discountedPrice;
@@ -29,9 +31,9 @@ class DiscountService
 
     protected function seatDiscountStrategies(): array
     {
-       return [
-           new AtLeastTenEarlyBirdSeatsDiscountStrategy($this->configuration),
-           new FreeSeatDiscountStrategy($this->configuration),
-       ];
+        return [
+            new AtLeastTenEarlyBirdSeatsDiscountStrategy(),
+            new FreeSeatDiscountStrategy(),
+        ];
     }
 }

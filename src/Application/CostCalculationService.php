@@ -21,7 +21,7 @@ class CostCalculationService
     {
         $totalCost = 0;
         $seats = $reservation->getSeats();
-        $seatsPrices = $this->conferenceSeatsDao->getSeatsPrices($conferenceId);
+        $seatsPrices = $this->conferenceSeatsDao->getSeatsPrices($conferenceId->getId());
 
         foreach ($seats->getAll() as $seat) {
             $priceForSeat = $seatsPrices[$seat->getType()][0];
