@@ -4,7 +4,7 @@ namespace RstGroup\ConferenceSystem\Domain\Payment;
 
 use RstGroup\ConferenceSystem\Domain\Reservation\Seat;
 
-class AtLeastTenEarlyBirdSeatsDiscountStrategy implements SeatDiscountStrategy
+class AtLeastTenEarlyBirdSeatsDiscountStrategy
 {
     /**
      * @var SeatsStrategyConfiguration
@@ -16,12 +16,12 @@ class AtLeastTenEarlyBirdSeatsDiscountStrategy implements SeatDiscountStrategy
         $this->configuration = $configuration;
     }
 
-    public function calculate(Seat $seat, int $price, ?float $discountedPrice): float
+    public function calculate(Seat $seat, int $price): float
     {
-        if ($seat->getQuantity() >= 10 && $this->configuration->isEnabledForSeat(__CLASS__, $seat) && $discountedPrice === null) {
+        if ($seat->getQuantity() >= 10 && $this->configuration->isEnabledForSeat(__CLASS__, $seat)) {
             return $price * $seat->getQuantity() * 0.85;
         }
 
-        return $discountedPrice;
+        return $price;
     }
 }
