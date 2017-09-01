@@ -13,4 +13,44 @@ class ConferenceTest extends TestCase
     {
         $this->markTestSkipped();
     }
+
+    public function testReservationAlreadyExists()
+    {
+
+    }
+
+    public function testGetAllSeatsIsIterable()
+    {
+
+    }
+
+    public function testSeatGetQuantityReturnsNumeric()
+    {
+
+    }
+
+    public function testAddWaitingListExceptionForInvalidReservation()
+    {
+
+    }
+
+    public function testAddWaitingListVoidForSuccess()
+    {
+
+    }
+
+    public function testNotEnoughSeatsAvailable()
+    {
+
+    }
+
+    public function testInvalidSeatQuantityProvided()
+    {
+
+    }
+
+    public function testMakeReservationSuccessFlow()
+    {
+
+    }
 }
