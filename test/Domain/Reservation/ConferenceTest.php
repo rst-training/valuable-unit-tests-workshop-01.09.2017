@@ -6,11 +6,43 @@ use PHPUnit\Framework\TestCase;
 
 class ConferenceTest extends TestCase
 {
-    /**
-     * @todo: remove it
-     */
-    public function test_example_name()
+    public function testValidCancelReservationForOrder()
     {
-        $this->markTestSkipped();
+        //
+    }
+
+    public function testCancelReservationForNotExistingOrder()
+    {
+        //
+    }
+
+    public function testCancelNotReservation()
+    {
+        //
+    }
+
+    public function testCancelWithWrongOrderId()
+    {
+        //
+    }
+
+    public function testCancelWithNotOrderId()
+    {
+        //
+    }
+
+    public function testValidCancelReservationWithSeats()
+    {
+        //
+    }
+
+    public function testValidCancelReservationWithSeatsAndWaitListCantBeMoved()
+    {
+        //
+    }
+
+    public function testValidCancelReservationWithSeatsAndWaitListCanBeMoved()
+    {
+        //
     }
 }
