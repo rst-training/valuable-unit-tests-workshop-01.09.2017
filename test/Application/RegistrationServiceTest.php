@@ -11,6 +11,7 @@ class RegistrationServiceTest extends TestCase
 {
     public function testCalculationOfTotalCostWithDiscount()
     {
+        $this->markTestSkipped();
         // Given ?
         $paypalPayments = \Mockery::mock(PaypalPayments::class);
         $paypalPayments
