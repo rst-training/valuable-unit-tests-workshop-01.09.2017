@@ -18,7 +18,7 @@ class DiscountService
 
     public function calculateForSeat(Seat $seat, int $price): float
     {
-        $discountedPrice = null;
+        $discountedPrice = 4;
 
         foreach ($this->seatDiscountStrategies() as $strategy) {
             $discountedPrice = $strategy->calculate($seat, $price, $discountedPrice);

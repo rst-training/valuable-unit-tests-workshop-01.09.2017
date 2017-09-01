@@ -26,4 +26,16 @@ class DiscountServiceTest extends TestCase
 
         $this->assertEquals(59.5, $discountService->calculateForSeat($seat, 7), 0.01);
     }
+    
+    public function test_input_data()
+    {
+        $configuration = $this->getMockBuilder(SeatsStrategyConfiguration::class)->getMock();
+        $discountService = new DiscountService($configuration);
+        $seat = $this->getMockBuilder(Seat::class)->disableOriginalConstructor()->getMock();
+
+        $seat->expects($this->exactly(2))->method('getQuantity')->willReturn(10);
+
+        $this->assertEquals(59.5, $discountService->calculateForSeat($seat, 7), 0.01);
+        
+    }
 }
