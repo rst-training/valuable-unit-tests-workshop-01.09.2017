@@ -7,6 +7,7 @@ use RstGroup\ConferenceSystem\Domain\Payment\AtLeastTenEarlyBirdSeatsDiscountStr
 use RstGroup\ConferenceSystem\Domain\Payment\DiscountService;
 use RstGroup\ConferenceSystem\Domain\Payment\FreeSeatDiscountStrategy;
 use RstGroup\ConferenceSystem\Domain\Payment\SeatDiscountStrategy;
+use RstGroup\ConferenceSystem\Domain\Payment\SeatPoolStrategy;
 use RstGroup\ConferenceSystem\Domain\Payment\SeatsStrategyConfiguration;
 use RstGroup\ConferenceSystem\Domain\Reservation\Seat;
 
@@ -43,5 +44,15 @@ class DiscountServiceTest extends TestCase
         $returned = $strategy->calculate($seat, 10, null);
 
         self::assertEquals(85, $returned);
+    }
+
+    /**
+     * @test
+     */
+    public function returns_number_of_discounts_for_50_PLN_when_for_each_seat(){
+        $strategy = new SeatPoolStrategy(100, 50);
+        $result = $strategy->calculate(new Seat("test", 1, 60));
+
+        self::assertEquals(10, $result);
     }
 }
