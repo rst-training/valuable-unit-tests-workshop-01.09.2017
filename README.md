@@ -1,6 +1,7 @@
 # Workshop participant
 
 Jan Kowalski  
+Dawid Wengrzik
 
 # Setup
 
