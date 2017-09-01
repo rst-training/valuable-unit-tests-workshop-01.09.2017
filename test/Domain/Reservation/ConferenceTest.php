@@ -54,4 +54,11 @@ class ConferenceTest extends TestCase
     {
         $this->markTestSkipped();
     }
+
+    /**
+     */
+    public function testCancelReservationForOrder_EmptyReservation()
+    {
+        $this->markTestSkipped();
+    }
 }
