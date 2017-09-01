@@ -11,19 +11,32 @@ use RstGroup\ConferenceSystem\Domain\Reservation\Seat;
 
 class DiscountServiceTest extends TestCase
 {
+
     /**
      * @test
+     * @dataProvider dataSeats
      */
-    public function returns_price_discounted_by_15_percent_if_at_least_10_early_bird_seats_are_bought()
+    public function returns_price_discounted_by_15_percent_if_at_least_10_early_bird_seats_are_bought($numberOfSeats, $pricePerSeat, $expectedPrice)
     {
-        $configuration = $this->getMockBuilder(SeatsStrategyConfiguration::class)->getMock();
-        $discountService = new DiscountService($configuration);
         $seat = $this->getMockBuilder(Seat::class)->disableOriginalConstructor()->getMock();
+        $seat->method('getQuantity')->willReturn($numberOfSeats);
 
-        $configuration->expects($this->at(0))->method('isEnabledForSeat')->with(AtLeastTenEarlyBirdSeatsDiscountStrategy::class)->willReturn(true);
-        $configuration->expects($this->at(1))->method('isEnabledForSeat')->with(FreeSeatDiscountStrategy::class)->willReturn(false);
-        $seat->expects($this->exactly(2))->method('getQuantity')->willReturn(10);
+        $discountService = new AtLeastTenEarlyBirdSeatsDiscountStrategy();
 
-        $this->assertEquals(59.5, $discountService->calculateForSeat($seat, 7), 0.01);
+        $this->assertEquals($expectedPrice, $discountService->calculate($seat, $pricePerSeat));
+    }
+
+    public function dataSeats()
+    {
+        return [
+            [11, 10, 93.5],
+            [10, 10, 85],
+            [9, 10, 90],
+            [100, 0, 0],
+            [1, 0, 0],
+            [0, 0, 0],
+            [1, 1, 1],
+            [10, 1, 8.5]
+        ];
     }
 }

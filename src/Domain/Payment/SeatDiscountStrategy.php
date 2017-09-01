@@ -9,8 +9,7 @@ interface SeatDiscountStrategy
     /**
      * @param $seat
      * @param $price
-     * @param $discountedPrice
      * @return mixed discounted price
      */
-    public function calculate(Seat $seat, int $price, float $discountedPrice);
+    public function calculate(Seat $seat, int $price);
 }
