@@ -6,6 +6,7 @@ use RstGroup\ConferenceSystem\Domain\Payment\SeatsStrategyConfiguration;
 use RstGroup\ConferenceSystem\Domain\Reservation\ConferenceId;
 use RstGroup\ConferenceSystem\Domain\Payment\DiscountService;
 use RstGroup\ConferenceSystem\Domain\Reservation\OrderId;
+use RstGroup\ConferenceSystem\Domain\Reservation\Reservation;
 use RstGroup\ConferenceSystem\Domain\Reservation\ReservationId;
 use RstGroup\ConferenceSystem\Domain\Reservation\Seat;
 use RstGroup\ConferenceSystem\Domain\Reservation\SeatsCollection;
