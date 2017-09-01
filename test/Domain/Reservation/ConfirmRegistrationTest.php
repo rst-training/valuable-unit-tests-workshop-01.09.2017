@@ -19,7 +19,7 @@ class ConfirmRegistrationTest extends TestCase
         $orderId = new OrderId(1);
         $conferernceId = new ConferenceId(1);
         $totalCost = 0;
-        $seats = [new Seat['x', 2]];
+        //$seats = [new Seat['x', 2]];
 
         //pobranie miejsc
         $registrationMock = $this->getMockBuilder(RegistrationService::class)->getMethods(['calculate'])->getMock();
