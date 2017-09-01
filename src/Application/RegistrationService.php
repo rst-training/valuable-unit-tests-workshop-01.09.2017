@@ -1,8 +1,10 @@
 <?php
+
 namespace RstGroup\ConferenceSystem\Application;
 
 use RstGroup\ConferenceSystem\Domain\Payment\PaypalPayments;
 use RstGroup\ConferenceSystem\Domain\Payment\SeatsStrategyConfiguration;
+use RstGroup\ConferenceSystem\Domain\Payment\TotalCostCalculator;
 use RstGroup\ConferenceSystem\Domain\Reservation\ConferenceId;
 use RstGroup\ConferenceSystem\Domain\Payment\DiscountService;
 use RstGroup\ConferenceSystem\Domain\Reservation\OrderId;
@@ -15,6 +17,17 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 
 class RegistrationService
 {
+
+    /**
+     * @var TotalCostCalculator
+     */
+    private $calculator;
+
+    public function __construct(TotalCostCalculator $calculator)
+    {
+        $this->calculator = $calculator;
+    }
+
     public function reserveSeats(int $orderId, int $conferenceId, array $seats)
     {
         $conference = $this->getConferenceRepository()->get(new ConferenceId($conferenceId));
@@ -36,18 +49,10 @@ class RegistrationService
         $conference = $this->getConferenceRepository()->get(new ConferenceId($conferenceId));
         $reservation = $conference->getReservations()->get(new ReservationId(new ConferenceId($conferenceId), new OrderId($orderId)));
 
-        $totalCost = 0;
         $seats = $reservation->getSeats();
         $seatsPrices = $this->getConferenceDao()->getSeatsPrices($conferenceId);
 
-        foreach ($seats->getAll() as $seat) {
-            $priceForSeat = $seatsPrices[$seat->getType()][0];
-
-            $dicountedPrice = $this->getDiscountService()->calculateForSeat($seat, $priceForSeat);
-            $regularPrice = $priceForSeat * $seat->getQuantity();
-
-            $totalCost += min($dicountedPrice, $regularPrice);
-        }
+        $totalCost = $this->calculator->calculate($seats, $seatsPrices);
 
         $conference->closeReservationForOrder(new OrderId($orderId));
 
