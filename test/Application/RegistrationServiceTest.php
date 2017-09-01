@@ -3,6 +3,7 @@
 namespace RstGroup\ConferenceSystem\Application;
 
 use PHPUnit\Framework\TestCase;
+use RstGroup\ConferenceSystem\Domain\Payment\DiscountService;
 use RstGroup\ConferenceSystem\Domain\Payment\PaypalPayments;
 use RstGroup\ConferenceSystem\Domain\Reservation\Conference;
 use RstGroup\ConferenceSystem\Domain\Reservation\ConferenceId;
@@ -19,6 +20,7 @@ class RegistrationServiceTest extends TestCase
 {
     public function verifies_total_cost_with_discount()
     {
+        $this->markTestSkipped();
         //Given
         $registrationService = $this->getMockBuilder(RegistrationService::class)->setMethods([
             'getPaypalPayments',
