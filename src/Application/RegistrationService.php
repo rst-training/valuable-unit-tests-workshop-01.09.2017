@@ -6,6 +6,7 @@ use RstGroup\ConferenceSystem\Domain\Payment\SeatsStrategyConfiguration;
 use RstGroup\ConferenceSystem\Domain\Reservation\ConferenceId;
 use RstGroup\ConferenceSystem\Domain\Payment\DiscountService;
 use RstGroup\ConferenceSystem\Domain\Reservation\OrderId;
+use RstGroup\ConferenceSystem\Domain\Reservation\Reservation;
 use RstGroup\ConferenceSystem\Domain\Reservation\ReservationId;
 use RstGroup\ConferenceSystem\Domain\Reservation\Seat;
 use RstGroup\ConferenceSystem\Domain\Reservation\SeatsCollection;
@@ -15,6 +16,11 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 
 class RegistrationService
 {
+private $conferenceMemoryRepository;
+private $conferenceSeatsDao;
+private $discountService;
+private $paypalPayments;
+
     public function reserveSeats(int $orderId, int $conferenceId, array $seats)
     {
         $conference = $this->getConferenceRepository()->get(new ConferenceId($conferenceId));
@@ -36,18 +42,7 @@ class RegistrationService
         $conference = $this->getConferenceRepository()->get(new ConferenceId($conferenceId));
         $reservation = $conference->getReservations()->get(new ReservationId(new ConferenceId($conferenceId), new OrderId($orderId)));
 
-        $totalCost = 0;
-        $seats = $reservation->getSeats();
-        $seatsPrices = $this->getConferenceDao()->getSeatsPrices($conferenceId);
-
-        foreach ($seats->getAll() as $seat) {
-            $priceForSeat = $seatsPrices[$seat->getType()][0];
-
-            $dicountedPrice = $this->getDiscountService()->calculateForSeat($seat, $priceForSeat);
-            $regularPrice = $priceForSeat * $seat->getQuantity();
-
-            $totalCost += min($dicountedPrice, $regularPrice);
-        }
+        $totalCost = $this->calculateTotalCost($conferenceId, $reservation);
 
         $conference->closeReservationForOrder(new OrderId($orderId));
 
@@ -86,5 +81,28 @@ class RegistrationService
     protected function getPaypalPayments(): PaypalPayments
     {
         return new PaypalPayments();
+    }
+
+    /**
+     * @param int $conferenceId
+     * @param     $reservation
+     *
+     * @return int|mixed
+     */
+    private function calculateTotalCost(int $conferenceId, Reservation $reservation)
+    {
+        $totalCost = 0;
+        $seats = $reservation->getSeats();
+        $seatsPrices = $this->getConferenceDao()->getSeatsPrices($conferenceId);
+
+        foreach ($seats->getAll() as $seat) {
+            $priceForSeat = $seatsPrices[$seat->getType()][0];
+
+            $dicountedPrice = $this->getDiscountService()->calculateForSeat($seat, $priceForSeat);
+            $regularPrice = $priceForSeat * $seat->getQuantity();
+
+            $totalCost += min($dicountedPrice, $regularPrice);
+        }
+        return $totalCost;
     }
 }

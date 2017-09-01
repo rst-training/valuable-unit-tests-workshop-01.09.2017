@@ -2,7 +2,7 @@
 
 namespace RstGroup\ConferenceSystem\Infrastructure\Reservation;
 
-class ConferenceSeatsDao
+class ConferenceSeatsDao implements ConferenceSeatsDaoInterface
 {
     protected $connection;
 

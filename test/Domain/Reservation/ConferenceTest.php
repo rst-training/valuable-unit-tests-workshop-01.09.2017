@@ -14,12 +14,12 @@ class ConferenceTest extends TestCase
         $this->markTestSkipped();
     }
 
-    public function testReservationForOrderExists(){}
-    public function testReservationForOrderRemoved(){}
-    public function testMoveReservationFromWaitlistWithAvailableSeats(){}
-    public function testDontAddReservationsFromAwaitlistsWithNoAvailableSeats(){}
-    public function testSeatsAvailabilityWithEmptyWaitList(){}
-    public function testSeatsAvailabilityWithNonEmptyWaitList(){}
-    public function testReservationMovedToTheSameSeatType(){}
+//    public function testReservationForOrderExists(){}
+//    public function testReservationForOrderRemoved(){}
+//    public function testMoveReservationFromWaitlistWithAvailableSeats(){}
+//    public function testDontAddReservationsFromAwaitlistsWithNoAvailableSeats(){}
+//    public function testSeatsAvailabilityWithEmptyWaitList(){}
+//    public function testSeatsAvailabilityWithNonEmptyWaitList(){}
+//    public function testReservationMovedToTheSameSeatType(){}
 
 }
