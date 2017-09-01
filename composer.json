@@ -13,5 +13,8 @@
     "psr-4": {
       "RstGroup\\ConferenceSystem\\Test\\": "test"
     }
+  },
+  "require": {
+    "mockery/mockery": "^0.9.9"
   }
 }
